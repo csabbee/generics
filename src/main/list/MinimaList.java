@@ -1,15 +1,17 @@
 package list;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class MinimaList implements Iterable {
-	private final Object[] myArray = new Object[100];
+public class MinimaList<E> implements Iterable<E> {
+	@SuppressWarnings("unchecked")
+    private final E[] myArray = (E[]) new Object[100];
 	private int myElementCount = 0;
 
-	public void add(Object o) {
+	public void add(E o) {
 		myArray[myElementCount] = o;
 		myElementCount++;
 	}
@@ -18,8 +20,8 @@ public class MinimaList implements Iterable {
 		myElementCount = 0;
 	}
 
-	public void addAll(MinimaList otherList) {
-		for (Iterator i = otherList.iterator(); i.hasNext();) {
+	public void addAll(MinimaList<E> otherList) {
+		for (Iterator<E> i = otherList.iterator(); i.hasNext();) {
 			add(i.next());
 		}
 	}
@@ -32,19 +34,19 @@ public class MinimaList implements Iterable {
 		return myElementCount;
 	}
 
-	public Object get(int position) {
+	public E get(int position) {
 		return myArray[position];
 	}
 
 	@Override
-	public Iterator iterator() {
+	public Iterator<E> iterator() {
 		return new SimpleIterator();
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder("[");
-		Iterator i = iterator();
+		Iterator<E> i = iterator();
 		while (i.hasNext()) {
 			s.append(i.next());
 			if (i.hasNext()) {
@@ -55,8 +57,8 @@ public class MinimaList implements Iterable {
 		return s.toString();
 	}
 
-	public Object[] toArray() {
-		Object[] copy = new Object[myElementCount];
+	public E[] toArray(Class<E> type) {
+	    E[] copy = (E[])Array.newInstance(type, myElementCount);
 		System.arraycopy(myArray, 0, copy, 0, myElementCount);
 		return copy;
 	}
@@ -65,7 +67,8 @@ public class MinimaList implements Iterable {
 	public boolean equals(Object other) {
 		boolean areTheSame = (other instanceof MinimaList);
 		if (areTheSame) {
-			MinimaList otherList = (MinimaList) other;
+			@SuppressWarnings("unchecked")
+            MinimaList<E> otherList = (MinimaList<E>) other;
 			areTheSame = Arrays.deepEquals(this.myArray, otherList.myArray);
 		}
 		return areTheSame;
@@ -83,7 +86,7 @@ public class MinimaList implements Iterable {
 		return hash;
 	}
 
-	private class SimpleIterator implements Iterator {
+	private class SimpleIterator implements Iterator<E> {
 		private int myCurrentIndex = 0;
 
 		@Override
@@ -92,12 +95,11 @@ public class MinimaList implements Iterable {
 		}
 
 		@Override
-		public Object next() {
+		public E next() {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
-			Object item = MinimaList.this.get(myCurrentIndex);
-			myCurrentIndex++;
+			E item = MinimaList.this.get(myCurrentIndex);
 			return item;
 		}
 
@@ -107,7 +109,7 @@ public class MinimaList implements Iterable {
 		}
 	}
 
-	public void sort(Comparator comparator) {
+	public void sort(Comparator<E> comparator) {
 		Arrays.sort(myArray, 0, myElementCount, comparator);
 	}
 }

@@ -15,7 +15,7 @@ import comparator.LorryByLoadComparator;
 import comparator.VehicleBySpeedComparator;
 
 public class MinimaListTest {
-	private final MinimaList listUnderTest = new MinimaList();
+	private final MinimaList<String> listUnderTest = new MinimaList<>();
 
 	@Test
 	public void testNewArrayIsEmpty() {
@@ -46,7 +46,7 @@ public class MinimaListTest {
 		listUnderTest.add("Hello");
 		listUnderTest.add("world!");
 
-		MinimaList more = new MinimaList();
+		MinimaList<String> more = new MinimaList<>();
 		more.add("Java");
 		more.add("is");
 		more.add("cool.");
@@ -60,7 +60,7 @@ public class MinimaListTest {
 	@Test(expected = NoSuchElementException.class)
 	public void testIterator() {
 		listUnderTest.add("hello");
-		Iterator iterator = listUnderTest.iterator();
+		Iterator<String> iterator = listUnderTest.iterator();
 		assertThat(iterator.hasNext(), is(true));
 		assertEquals("hello", iterator.next());
 		assertThat(iterator.hasNext(), is(false));
@@ -71,7 +71,7 @@ public class MinimaListTest {
 	public void testEquals() {
 		listUnderTest.add("hello");
 		listUnderTest.add("world");
-		MinimaList other = new MinimaList();
+		MinimaList<String> other = new MinimaList<>();
 		other.add("hello");
 		assertThat(listUnderTest.equals(other), is(false));
 		other.add("world");
@@ -82,7 +82,7 @@ public class MinimaListTest {
 	public void testToArray() {
 		listUnderTest.add("hello");
 		listUnderTest.add("world");
-		Object[] array = listUnderTest.toArray();
+		String[] array = listUnderTest.toArray(String.class);
 		assertThat(array.length, is(2));
 		assertEquals("hello", array[0]);
 		assertEquals("world", array[1]);

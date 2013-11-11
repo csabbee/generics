@@ -1,6 +1,7 @@
 package basics.erasure;
 
 
+
 public class StaticDemo<T> {
 	private static int ourCounter = 0;
 	private static String ourType;
