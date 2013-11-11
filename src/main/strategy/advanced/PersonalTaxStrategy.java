@@ -1,10 +1,9 @@
 package strategy.advanced;
 
-public class PersonalTaxStrategy implements TaxStrategy {
+public class PersonalTaxStrategy implements TaxStrategy<Person> {
 
 	@Override
-	public long calculateTax(TaxPayer taxPayer) {
-		Person person = (Person) taxPayer;
+	public long calculateTax(Person person) {
 		return (long) (person.getIncome() * 0.1 * getTaxAdjustment(person));
 	}
 

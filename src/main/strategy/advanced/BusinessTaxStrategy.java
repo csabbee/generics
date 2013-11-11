@@ -1,9 +1,8 @@
 package strategy.advanced;
 
-public class BusinessTaxStrategy implements TaxStrategy {
+public class BusinessTaxStrategy implements TaxStrategy<Business> {
 	@Override
-	public long calculateTax(TaxPayer taxPayer) {
-		Business business = (Business) taxPayer;
+	public long calculateTax(Business business) {
 		double rate;
 		if (isSmall(business)) {
 			rate = 0.1;

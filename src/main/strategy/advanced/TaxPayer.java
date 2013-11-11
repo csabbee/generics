@@ -1,10 +1,10 @@
 package strategy.advanced;
 
-public abstract class TaxPayer {
+public abstract class TaxPayer<P extends TaxPayer<P>> {
 	private final long myIncome;
-	private final TaxStrategy myTaxStrategy;
+	private final TaxStrategy<P> myTaxStrategy;
 
-	protected TaxPayer(long income, TaxStrategy taxStrategy) {
+	protected TaxPayer(long income, TaxStrategy<P> taxStrategy) {
 		myIncome = income;
 		myTaxStrategy = taxStrategy;
 	}
@@ -14,6 +14,8 @@ public abstract class TaxPayer {
 	}
 
 	public long getTax() {
-		return myTaxStrategy.calculateTax(this);
+		return myTaxStrategy.calculateTax(getThis());
 	}
+
+    protected abstract P getThis();
 }

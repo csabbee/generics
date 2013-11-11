@@ -1,5 +1,5 @@
 package strategy.advanced;
 
-public interface TaxStrategy {
-	long calculateTax(TaxPayer p);
+public interface TaxStrategy <P extends TaxPayer<P>>{
+	long calculateTax(P p);
 }
